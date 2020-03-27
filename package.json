@@ -1,0 +1,25 @@
+{
+  "name": "corona-game",
+  "version": "1.0.0",
+  "description": "Corona game",
+  "main": "corona-game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://esensato:1322803891ed5ab4130b0cf3401f53f3f7811b92@github.com/esensato/corona-game.git"
+  },
+  "keywords": [
+    "corona"
+  ],
+  "author": "esensato@hotmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esensato/corona-game/issues"
+  },
+  "homepage": "https://github.com/esensato/corona-game#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
