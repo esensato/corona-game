@@ -1,6 +1,7 @@
 ---
 applications:
 - name: coronagame
+  command: node corona-game.js
   memory: 256M
   routes:
   - route: esensato-coronagame.mybluemix.net
