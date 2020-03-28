@@ -1,6 +1,6 @@
 ---
 applications:
-- name: escola-idiomas
+- name: corona-game
   memory: 256M
   routes:
-  - route: esensato-corona-game-.mybluemix.net
+  - route: esensato.corona.game.mybluemix.net
