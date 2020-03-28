@@ -17,6 +17,7 @@
         const TAMANHO_BLOCO = 64;
         const LARGURA_TABULEIRO = 19;
         const ALTURA_TABULEIRO = 9;
+        const TOTAL_IMAGEM = 18;
 
         var posCorona = [{pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
                          {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
@@ -26,7 +27,7 @@
                          {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
                          {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false}];
 
-        var tabuleiro = [ "calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltoh","asfaltoh","asfaltoh","asfaltoe","grama","asfaltod","asfaltoh","asfaltoh","asfaltoh","asfaltoe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltobe","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltoh","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoe","grama","asfaltobd","asfaltoe","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada"];
+        var tabuleiro = [ "calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltoh","asfaltoh","asfaltoh","asfaltoe","casa","asfaltod","asfaltoh","asfaltoh","asfaltoh","asfaltoe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltobe","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltoh","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoe","grama","asfaltobd","asfaltoe","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada"];
 
         var imgBuffer = new Map();
 
@@ -38,57 +39,48 @@
 
         var imgFundo = null;
 
+        var exibeSplash = true;
         var coronaSplashX = 0;
         var coronaSplashY = 0;
 
-        function carregarBufferImagens() {
+        function carregarImagem(nome, callback) {
 
-            for (var i = 0; i < tabuleiro.length; i++) {
+            if (!imgBuffer.has(nome)) {
 
-                if (imgBuffer.get(tabuleiro[i]) == null) {
-                    var img = new Image(); 
-                    img.src =  'img/' + tabuleiro[i] + '.png'; 
-                    imgBuffer.set(tabuleiro[i], img);
-                    console.log('Carregado: ' + img.src);
+                var img = new Image(); 
+                img.src =  'img/' + nome + '.png'; 
+                img.onload = function() {
+                    imgBuffer.set(nome, img);
+                    console.log('Carregado: ' + img.src + ", " + imgBuffer.size);
+                    if(imgBuffer.size == TOTAL_IMAGEM){
+                        callback(imgBuffer.size);
+                    }      
                 }
 
             }
 
-            var img = new Image(); 
-            img.src =  'img/carroc.png'; 
-            imgBuffer.set('carroc', img);
+        }
 
-            var imgCarrod = new Image(); 
-            imgCarrod.src =  'img/carrod.png'; 
-            imgBuffer.set('carrod', imgCarrod);
+        function carregarBufferImagens(callback) {
 
-            var imgCarroe = new Image(); 
-            imgCarroe.src =  'img/carroe.png'; 
-            imgBuffer.set('carroe', imgCarroe);
-            
-            var imgCarrob = new Image(); 
-            imgCarrob.src =  'img/carrob.png'; 
-            imgBuffer.set('carrob', imgCarrob);
+            for (var i = 0; i < tabuleiro.length; i++) {
 
-            var imgCorona = new Image(); 
-            imgCorona.src =  'img/corona.png'; 
-            imgBuffer.set('corona', imgCorona);
+                if (imgBuffer.get(tabuleiro[i]) == null) {
+                    carregarImagem(tabuleiro[i], (total) => {console.log(total); callback();});
+                }
 
-            var imgExplosao = new Image(); 
-            imgExplosao.src =  'img/explosao.png'; 
-            imgBuffer.set('explosao', imgExplosao);
+            }
 
-            var imgTitio = new Image(); 
-            imgTitio.src =  'img/titio.png';
-            imgTitio.width = 64;
-            imgTitio.height = 64;
-            imgBuffer.set('titio', imgTitio);
-
-            var imgSplash = new Image(); 
-            imgSplash.src =  'img/splash.png';
-            //imgSplash.width = 64;
-            //imgSplash.height = 64;
-            imgBuffer.set('splash', imgSplash);
+            carregarImagem('carroc', (total) => {console.log(total); callback();});
+            carregarImagem('carrod', (total) => {console.log(total); callback();});
+            carregarImagem('carroe', (total) => {console.log(total); callback();});
+            carregarImagem('carrob', (total) => {console.log(total); callback();});
+            carregarImagem('corona', (total) => {console.log(total); callback();});
+            carregarImagem('explosao', (total) => {console.log(total); callback();});
+            carregarImagem('titio', (total) => {console.log(total); callback();});
+            carregarImagem('titio2', (total) => {console.log(total); callback();});
+            carregarImagem('casa', (total) => {console.log(total); callback();});
+            carregarImagem('splash', (total) => {console.log(total); callback();});
 
             console.log('Buffer de imagem carregado');
 
@@ -120,21 +112,14 @@
 
             }
 
-            posCorona.forEach((item) => {
-                ctxOffCanvas.drawImage(imgBuffer.get('corona'), item.pos.x * TAMANHO_BLOCO, item.pos.y * TAMANHO_BLOCO);
-            });
-
-            posVelhinho.forEach((item) => {
-                ctxOffCanvas.drawImage(imgBuffer.get('titio'), item.x, item.y);
-            });
-
-
             var meioX = (TAMANHO_BLOCO * LARGURA_TABULEIRO) / 2;
             var meioY = (TAMANHO_BLOCO * ALTURA_TABULEIRO) / 2;
 
-            //ctxOffCanvas.drawImage(imgBuffer.get('splash'), meioX - ((imgBuffer.get('splash').width / 2)), meioY - ((imgBuffer.get('splash').height / 2)));
-            //coronaSplashX = meioX;
-            //coronaSplashY = meioY;
+            if (exibeSplash) {
+                ctxOffCanvas.drawImage(imgBuffer.get('splash'), meioX - ((imgBuffer.get('splash').width / 2)), meioY - ((imgBuffer.get('splash').height / 2)));
+                coronaSplashX = meioX;
+                coronaSplashY = meioY;
+            }
 
             imgBuffer.set('fundo', offCanvas);
             console.log('Imagem de fundo criada');
@@ -290,8 +275,6 @@
             var offCanvas = document.getElementById('tabuleiro');
             var ctxOffCanvas = offCanvas.getContext("2d");
 
-            document.getElementById('tabuleiro').getContext("2d").drawImage(imgBuffer.get('fundo'), 0, 0);
-
             if (temCorona()) {
 
                 imagemCarro = "explosao";
@@ -346,25 +329,25 @@
 
             }
 
-                ctxOffCanvas.drawImage(imgBuffer.get(imagemCarro), carroX, carroY);
+            ctxOffCanvas.drawImage(imgBuffer.get('fundo'), 0, 0);
 
-                posCorona.forEach((item) => {
-                    ctxOffCanvas.drawImage(imgBuffer.get('corona'), item.pos.x, item.pos.y);
-                });
+            ctxOffCanvas.drawImage(imgBuffer.get(imagemCarro), carroX, carroY);
 
-                posVelhinho.forEach((item) => {
-                    ctxOffCanvas.drawImage(imgBuffer.get('titio'), item.pos.x, item.pos.y);
-                });
+            posCorona.forEach((item) => {
+                ctxOffCanvas.drawImage(imgBuffer.get('corona'), item.pos.x, item.pos.y);
+            });
 
-                direcionaCorona();
-                moveCorona();
-                direcionaVelhinho();
-                moveVelhinho();
-                printInfo();
+            posVelhinho.forEach((item) => {
+                ctxOffCanvas.drawImage(imgBuffer.get('titio'), item.pos.x, item.pos.y);
+            });
+
+            direcionaCorona();
+            moveCorona();
+            direcionaVelhinho();
+            moveVelhinho();
+            printInfo();
 
         }
-
-
 
         function podeMudarPosicao() {
 
@@ -495,22 +478,10 @@
         function splash() {
 
            var offCanvas = document.getElementById('tabuleiro');
-            var ctxOffCanvas = offCanvas.getContext("2d");
-
+           var ctxOffCanvas = offCanvas.getContext("2d");
             ctxOffCanvas.drawImage(imgBuffer.get('fundo'), 0, 0);
-            ctxOffCanvas.drawImage(imgBuffer.get('corona'), coronaSplashX, coronaSplashY);
+            console.log('Splash on');
 
-        }
-
-        function init() {
-
-            document.getElementById('tabuleiro').width = LARGURA_TABULEIRO * TAMANHO_BLOCO;
-            document.getElementById('tabuleiro').height = ALTURA_TABULEIRO * TAMANHO_BLOCO;
-            carregarBufferImagens();
-            criaImagemFundo();
-            splash();
-            animacao();
- 
         }
 
         function getRandomIntInclusive(min, max) {
@@ -519,19 +490,44 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        function inicio(event) {
+            var x = event.clientX;
+            var y = event.clientY;
+
+            if (x >= 360 && x <= 490 && y >= 370 && y <= 500) {
+                exibeSplash = false;
+                criaImagemFundo();
+                animacao();
+            }
+
+        }
+
     </script>
 
 </head>
 
-<body onkeydown="eventoTeclado(event);" onload="init();">
-    <button onclick="init();">Iniciar</button>
+<body onkeydown="eventoTeclado(event);" onclick="inicio(event)">
+
     <div>
 
-        <canvas id="tabuleiro">
+        <canvas id="tabuleiro" style="border: solid 1px">
         </canvas>
 
     </div>
 
 <div id="info"></div>
+
+<script>
+        document.getElementById('tabuleiro').width = LARGURA_TABULEIRO * TAMANHO_BLOCO;
+        document.getElementById('tabuleiro').height = ALTURA_TABULEIRO * TAMANHO_BLOCO;
+
+        carregarBufferImagens(()=>{
+            console.log('OK');
+            criaImagemFundo();
+            splash();
+            });
+
+</script>
+
 </body>
 </html>

@@ -1,0 +1,64 @@
+<html>
+        <meta charset="UTF-8">
+    <head>
+
+            <script>
+            
+                function init() {
+
+                    var imgCorona = new Image(); 
+                    imgCorona.src =  'img/corona.png'; 
+
+                    //var offCanvas = document.createElement('canvas');
+                    //var ctxOffCanvas = offCanvas.getContext('2d');
+                    //offCanvas.width = 100;
+                    //offCanvas.height = 100;
+                    //ctxOffCanvas.width = 100;
+                    //ctxOffCanvas.height = 100;
+                    //ctxOffCanvas.drawImage(imgCorona, 0, 0);
+
+                    var testeCanvas = document.getElementById('teste');
+                    var ctxTesteCanvas = testeCanvas.getContext('2d');
+                    //ctxTesteCanvas.drawImage(offCanvas, 0, 0);
+
+                    ctxTesteCanvas.drawImage(imgCorona, 0, 0);
+                    console.log('init - ok');
+
+                }
+                
+            </script>
+        
+
+    </head>
+    <body>
+        <canvas id="teste" style="border: solid 1px" width="100px" height="100px"></canvas>
+        <button onclick="init();">Teste</button>
+    </body>
+
+    <script>
+            
+            var imgCorona = new Image(); 
+            imgCorona.src =  'img/corona.png'; 
+
+            imgCorona.onload = function() {
+
+                //var offCanvas = document.createElement('canvas');
+                //var ctxOffCanvas = offCanvas.getContext('2d');
+                //offCanvas.width = 100;
+                //offCanvas.height = 100;
+                //ctxOffCanvas.width = 100;
+                //ctxOffCanvas.height = 100;
+                //ctxOffCanvas.drawImage(imgCorona, 0, 0);
+
+                var testeCanvas = document.getElementById('teste');
+                var ctxTesteCanvas = testeCanvas.getContext('2d');
+                //ctxTesteCanvas.drawImage(offCanvas, 0, 0);
+            
+                ctxTesteCanvas.drawImage(imgCorona, 0, 0);
+
+            }
+
+
+    </script>
+
+</html>
