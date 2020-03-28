@@ -1,6 +1,6 @@
 ---
 applications:
-- name: corona-game
+- name: coronagame
   memory: 256M
   routes:
   - route: esensato.corona.game.mybluemix.net
