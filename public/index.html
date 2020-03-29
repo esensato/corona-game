@@ -18,24 +18,20 @@
         const LARGURA_TABULEIRO = 19;
         const ALTURA_TABULEIRO = 9;
         const TOTAL_IMAGEM = 18;
+        const PESO_DIRECAO = 5;
 
-        var posCorona = [{pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
-                         {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
-                         {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false}];
+        // carro representa o carro do jogador que recolhe os velhinhos
+        var carro = {pos: {x: 0, y: 0}, imagem: "carrod", direcao: PARADO};
 
-        var posVelhinho = [{pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
-                         {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
-                         {pos: {x: 4 * TAMANHO_BLOCO, y:3 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false}];
+        var posCorona = [{pos: {x: 11 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:0, baixo: 0, direita: 0, esquerda: 0}];
 
-        var tabuleiro = [ "calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltoh","asfaltoh","asfaltoh","asfaltoe","casa","asfaltod","asfaltoh","asfaltoh","asfaltoh","asfaltoe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltobe","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","grama","asfaltov","calcada","calcada","calcada","asfaltov","calcada","calcada","calcada","asfaltod","asfaltoh","asfaltoh","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoe","grama","asfaltobd","asfaltoe","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltov","grama","grama","asfaltov","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltobe","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada","calcada"];
+        var posVelhinho = [{pos: {x: 4 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
+                         {pos: {x: 4 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
+                         {pos: {x: 10 * TAMANHO_BLOCO, y:7 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false}];
+
+        var tabuleiro =   [ "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "calcada", "asfaltov", "calcada", "asfaltod", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "asfaltobd", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltobd", "asfaltoe", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "grama",   "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "asfaltov", "calcada", "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "calcada", "calcada", "calcada", "calcada", "asfaltov", "asfaltobd", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltoh","asfaltoh","asfaltobe"];
 
         var imgBuffer = new Map();
-
-        var carroX = 64;
-        var carroY = 64;
-        var imagemCarro = "carrod";
-
-        var direcaoCarro = PARADO;
 
         var imgFundo = null;
 
@@ -135,6 +131,18 @@
                     var tabuleiroTraseira = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
                     var tabuleiroCima = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
 
+                    if (tabuleiroBaixo == undefined) {
+                        tabuleiroBaixo = PARADO;
+                    }
+                    if (tabuleiroFrente == undefined) {
+                        tabuleiroFrente = PARADO;
+                    }
+                    if (tabuleiroTraseira == undefined) {
+                        tabuleiroTraseira = PARADO;
+                    }
+                    if (tabuleiroCima == undefined) {
+                        tabuleiroCima = PARADO;
+                    }
                     if (tabuleiroCima.item.startsWith('asfalto')){
                         direcoes.push(BOTAO_CIMA);
                     }
@@ -148,8 +156,63 @@
                         direcoes.push(BOTAO_ESQUERDA);
                     }
 
+                    if (direcoes.length > 1) {
+                        // apos uma quantidade de sorteios (PESO_DIRECAO)
+                        // remove das possiveis direcoes a que foi mais sorteada e zera os contadores
+                        var tot = (corona.cima + corona.baixo + corona.esquerda + corona.direita);
+                        if (tot >= PESO_DIRECAO) {
+
+                            var maiorQtdeSorteada = 0;
+                            var direcaoMaisSorteada = PARADO;
+
+                            if (corona.cima > maiorQtdeSorteada) {
+                                maiorQtdeSorteada = corona.cima;
+                                direcaoMaisSorteada = BOTAO_CIMA;
+                            }
+                            if (corona.baixo > maiorQtdeSorteada) {
+                                maiorQtdeSorteada = corona.baixo;
+                                direcaoMaisSorteada = BOTAO_BAIXO;
+                            }
+                            if (corona.direita > maiorQtdeSorteada) {
+                                maiorQtdeSorteada = corona.direita;
+                                direcaoMaisSorteada = BOTAO_DIREITA;
+                            }
+                            if (corona.esquerda > maiorQtdeSorteada) {
+                                maiorQtdeSorteada = corona.esquerda;
+                                direcaoMaisSorteada = BOTAO_ESQUERDA;
+                            }
+
+                            // cria um novo array sem a direcao mais sorteada
+                            var novoDirecoes = [];
+                            for (var i = 0; i < direcoes.length; i++) {
+                                if (direcoes[i] != direcaoMaisSorteada){
+                                    novoDirecoes.push(direcoes[i]);
+                                }
+                            }
+
+                            direcoes = novoDirecoes;
+                            console.log("REMOVE POSICAO POS = " + direcoes);
+
+                            corona.cima = 0;
+                            corona.baixo = 0;
+                            corona.esquerda = 0;
+                            corona.direita = 0;
+                        }
+                    }
+
                     corona.novoSorteio = false;
                     corona.direcao = direcoes[getRandomIntInclusive(0, direcoes.length - 1)];
+
+                    // armazena a estatistica de quanto cada direcao foi sorteada
+                    if (corona.direcao == BOTAO_CIMA){
+                        corona.cima++;
+                    } else if (corona.direcao == BOTAO_BAIXO){
+                        corona.baixo++;
+                    } else if (corona.direcao == BOTAO_ESQUERDA){
+                        corona.esquerda++;
+                    } else if (corona.direcao == BOTAO_DIREITA){
+                        corona.direita++;
+                    }
 
                 }
             });
@@ -164,6 +227,19 @@
                 var tabuleiroTraseira = getItemTabuleiro({x: corona.pos.x - 1, y: corona.pos.y + (TAMANHO_BLOCO / 2)});
                 var tabuleiroCima = getItemTabuleiro({x: corona.pos.x + (TAMANHO_BLOCO / 2), y: corona.pos.y - 1});
                 
+                if (tabuleiroBaixo == undefined) {
+                    tabuleiroBaixo = PARADO;
+                }
+                if (tabuleiroFrente == undefined) {
+                    tabuleiroFrente = PARADO;
+                }
+                if (tabuleiroTraseira == undefined) {
+                    tabuleiroTraseira = PARADO;
+                }
+                if (tabuleiroCima == undefined) {
+                    tabuleiroCima = PARADO;
+                }
+
                 if (corona.direcao == BOTAO_CIMA) {
                         if (!tabuleiroCima.item.startsWith('asfalto')){
                             corona.direcao = PARADO;
@@ -198,26 +274,23 @@
         }
 
         // Movimento velhinos
-
         function direcionaVelhinho() {
             posVelhinho.forEach((velhinho) => {
                 if (velhinho.novoSorteio) {
                     var direcoes = [];
-                    var tabuleiroBaixo = getItemTabuleiro({x:velhinho.pos.x, y:velhinho.pos.y});
-                    var tabuleiroFrente = getItemTabuleiro({x:velhinho.pos.x, y:velhinho.pos.y});
-                    var tabuleiroTraseira = getItemTabuleiro({x:velhinho.pos.x, y:velhinho.pos.y});
-                    var tabuleiroCima = getItemTabuleiro({x:velhinho.pos.x, y:velhinho.pos.y});
+                    //obtem itens no entorno do velhinho (cima, baixo, esquerda e direita)
+                    var entorno = getItensEntorno(velhinho);
 
-                    if (tabuleiroCima.item.startsWith('asfalto')){
+                    if (entorno.cima.startsWith('asfalto')){
                         direcoes.push(BOTAO_CIMA);
                     }
-                    if (tabuleiroBaixo.item.startsWith('asfalto')){
+                    if (entorno.baixo.startsWith('asfalto')){
                         direcoes.push(BOTAO_BAIXO);
                     }
-                    if (tabuleiroFrente.item.startsWith('asfalto')){
+                    if (entorno.direita.startsWith('asfalto')){
                         direcoes.push(BOTAO_DIREITA);
                     }
-                    if (tabuleiroTraseira.item.startsWith('asfalto')){
+                    if (entorno.esquerda.startsWith('asfalto')){
                         direcoes.push(BOTAO_ESQUERDA);
                     }
 
@@ -232,34 +305,32 @@
 
             posVelhinho.forEach((velhinho) => {
 
-                var tabuleiroBaixo = getItemTabuleiro({x: velhinho.pos.x + (TAMANHO_BLOCO / 2), y: velhinho.pos.y + TAMANHO_BLOCO});
-                var tabuleiroFrente = getItemTabuleiro( {x: velhinho.pos.x + TAMANHO_BLOCO, y: velhinho.pos.y + (TAMANHO_BLOCO / 2)});
-                var tabuleiroTraseira = getItemTabuleiro({x: velhinho.pos.x - 1, y: velhinho.pos.y + (TAMANHO_BLOCO / 2)});
-                var tabuleiroCima = getItemTabuleiro({x: velhinho.pos.x + (TAMANHO_BLOCO / 2), y: velhinho.pos.y - 1});
+                //obtem itens no entorno do velhinho (cima, baixo, esquerda e direita)
+                var entorno = getItensEntorno(velhinho);
                 
                 if (velhinho.direcao == BOTAO_CIMA) {
-                        if (!tabuleiroCima.item.startsWith('asfalto')){
+                        if (!entorno.cima.startsWith('asfalto')){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.y -= 1;
                         }
                     } else if (velhinho.direcao == BOTAO_BAIXO) {
-                        if (!tabuleiroBaixo.item.startsWith('asfalto')){
+                        if (!entorno.baixo.startsWith('asfalto')){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.y += 1;
                         }                  
                     } else if (velhinho.direcao == BOTAO_ESQUERDA) {
-                        if (!tabuleiroTraseira.item.startsWith('asfalto')){
+                        if (!entorno.esquerda.startsWith('asfalto')){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.x -= 1;
                         }
                     } else if (velhinho.direcao == BOTAO_DIREITA) {
-                        if (!tabuleiroFrente.item.startsWith('asfalto')){
+                        if (!entorno.direita.startsWith('asfalto')){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
@@ -275,54 +346,52 @@
             var offCanvas = document.getElementById('tabuleiro');
             var ctxOffCanvas = offCanvas.getContext("2d");
 
-            if (temCorona()) {
+            if (pegouCorona()) {
 
-                imagemCarro = "explosao";
-                direcaoCarro = PARADO;
+                carro.imagem = "explosao";
+                carro.direcao = PARADO;
 
             }
 
-            if (direcaoCarro != PARADO) {
+            var velhinhoPego = pegouVelhinho();
+            if (velhinhoPego != null) {
 
-                var tabuleiroBaixo = getItemTabuleiro(getCarroPontoBaixo());
-                var tabuleiroFrente = getItemTabuleiro(getCarroPontoFrente());
-                var tabuleiroTraseira = getItemTabuleiro(getCarroPontoTraseira());
-                var tabuleiroCima = getItemTabuleiro(getCarroPontoCima());
+                console.log("PEGOU = " + posVelhinho.indexOf(velhinhoPego));
+                posVelhinho = removeElementoArray(posVelhinho, posVelhinho.indexOf(velhinhoPego));
+            }
 
-                if (temCorona()) {
+            if (carro.direcao != PARADO) {
 
-                    imagemCarro = "explosao";
-                    direcaoCarro = PARADO;
+                //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
+                var entorno = getItensEntorno(carro);
 
-                }
-
-                if (direcaoCarro == BOTAO_CIMA) {
-                    imagemCarro = "carroc";
-                    if (!tabuleiroCima.item.startsWith('asfalto')){
-                        direcaoCarro = PARADO;
+                if (carro.direcao == BOTAO_CIMA && carro.pos.y > 0) {
+                    carro.imagem = "carroc";
+                    if (!entorno.cima.startsWith('asfalto')){
+                        carro.direcao = PARADO;
                     } else {
-                        carroY -= 1;
+                        carro.pos.y -= 1;
                     }
-                } else if (direcaoCarro == BOTAO_BAIXO) {
-                    imagemCarro = "carrob";
-                    if (!tabuleiroBaixo.item.startsWith('asfalto')){
-                        direcaoCarro = PARADO;
+                } else if (carro.direcao == BOTAO_BAIXO) {
+                    carro.imagem = "carrob";
+                    if (!entorno.baixo.startsWith('asfalto')){
+                        carro.direcao = PARADO;
                     } else {
-                        carroY += 1;
+                        carro.pos.y += 1;
                     }                  
-                } else if (direcaoCarro == BOTAO_ESQUERDA) {
-                    imagemCarro = "carroe";
-                    if (!tabuleiroTraseira.item.startsWith('asfalto')){
-                        direcaoCarro = PARADO;
+                } else if (carro.direcao == BOTAO_ESQUERDA && carro.pos.x > 0) {
+                    carro.imagem = "carroe";
+                    if (!entorno.esquerda.startsWith('asfalto')){
+                        carro.direcao = PARADO;
                     } else {
-                        carroX -= 1;
+                        carro.pos.x -= 1;
                     }
-                } else if (direcaoCarro == BOTAO_DIREITA) {
-                    imagemCarro = "carrod";
-                    if (!tabuleiroFrente.item.startsWith('asfalto')){
-                        direcaoCarro = PARADO;
+                } else if (carro.direcao == BOTAO_DIREITA) {
+                    carro.imagem = "carrod";
+                    if (!entorno.direita.startsWith('asfalto')){
+                        carro.direcao = PARADO;
                     } else {
-                        carroX += 1;
+                        carro.pos.x += 1;
                     }
 
                 }
@@ -331,7 +400,7 @@
 
             ctxOffCanvas.drawImage(imgBuffer.get('fundo'), 0, 0);
 
-            ctxOffCanvas.drawImage(imgBuffer.get(imagemCarro), carroX, carroY);
+            ctxOffCanvas.drawImage(imgBuffer.get(carro.imagem), carro.pos.x, carro.pos.y);
 
             posCorona.forEach((item) => {
                 ctxOffCanvas.drawImage(imgBuffer.get('corona'), item.pos.x, item.pos.y);
@@ -349,42 +418,56 @@
 
         }
 
-        function podeMudarPosicao() {
+        function getItensEntorno(elemento) {
 
-            if (carroX % TAMANHO_BLOCO == 0 && carroY % TAMANHO_BLOCO == 0) {
-                return true;
-            } else {
-                return false;
+            //obtem pontos no tabuleiro do entorno
+            var posEsquerda = {x: parseInt(elemento.pos.x / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + (TAMANHO_BLOCO / 2))/ TAMANHO_BLOCO)};
+            var posDireita = {x: parseInt((elemento.pos.x + TAMANHO_BLOCO) / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + (TAMANHO_BLOCO / 2))/ TAMANHO_BLOCO)};
+            var posCima = {x: parseInt((elemento.pos.x + (TAMANHO_BLOCO / 2)) / TAMANHO_BLOCO), y: parseInt(elemento.pos.y / TAMANHO_BLOCO)};
+            var posBaixo = {x: parseInt((elemento.pos.x + (TAMANHO_BLOCO / 2)) / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + TAMANHO_BLOCO) / TAMANHO_BLOCO)};
+
+            info = "ESQ = " + JSON.stringify(posEsquerda);
+            info += " DIR = " + JSON.stringify(posDireita);
+            info += " CIMA = " + JSON.stringify(posCima);
+            info += " BAIXO = " + JSON.stringify(posBaixo);
+
+            //obtem os itens
+            var itemCima = '';
+            var itemBaixo = '';
+            var itemEsquerda = '';
+            var itemDireita = '';
+
+            if (posCima.y >= 0) {
+                itemCima = tabuleiro[LARGURA_TABULEIRO * posCima.y + posCima.x];
+            }
+            if (posBaixo.y < ALTURA_TABULEIRO) {
+                itemBaixo = tabuleiro[LARGURA_TABULEIRO * posBaixo.y + posBaixo.x];
+            }
+            if (posEsquerda.x >= 0) {
+                itemEsquerda = tabuleiro[LARGURA_TABULEIRO * posEsquerda.y + posEsquerda.x];
+            }
+            if (posDireita.x < LARGURA_TABULEIRO) {
+                itemDireita = tabuleiro[LARGURA_TABULEIRO * posDireita.y + posDireita.x];
             }
 
-        }
+            return {cima: itemCima, baixo: itemBaixo, esquerda: itemEsquerda, direita: itemDireita};
 
-        function getCarroPontoBaixo() {
-            return {x: carroX + (TAMANHO_BLOCO / 2), y: carroY + TAMANHO_BLOCO};
-        }
-
-        function getCarroPontoFrente() {
-            return {x: carroX + TAMANHO_BLOCO, y: carroY + (TAMANHO_BLOCO / 2)};
-        }
-
-        function getCarroPontoTraseira() {
-            return {x: carroX - 1, y: carroY + (TAMANHO_BLOCO / 2)};
-        }
-
-        function getCarroPontoCima() {
-            return {x: carroX + (TAMANHO_BLOCO / 2), y: carroY - 1};
         }
 
         function getItemTabuleiro(pos) {
 
             var xTabuleiro = parseInt(pos.x / TAMANHO_BLOCO);
             var yTabuleiro = parseInt(pos.y / TAMANHO_BLOCO);
-            var posTabuleiro = LARGURA_TABULEIRO * yTabuleiro + xTabuleiro;
-            return {x: xTabuleiro, y: yTabuleiro, item: tabuleiro[posTabuleiro]};
+            var itemTabuleiro = '';
+            if (xTabuleiro > 0 && yTabuleiro > 0 && xTabuleiro < LARGURA_TABULEIRO && yTabuleiro < ALTURA_TABULEIRO) {
+                var posTabuleiro = LARGURA_TABULEIRO * yTabuleiro + xTabuleiro;
+                itemTabuleiro = tabuleiro[posTabuleiro];     
+            }       
+            return {x: xTabuleiro, y: yTabuleiro, item: itemTabuleiro};
         }
 
         function getPosCarroTabuleiro() {
-            return {x: parseInt((carroX + TAMANHO_BLOCO / 2) / TAMANHO_BLOCO), y: parseInt((carroY + TAMANHO_BLOCO / 2) / TAMANHO_BLOCO)};
+            return {x: parseInt((carro.pos.x + TAMANHO_BLOCO / 2) / TAMANHO_BLOCO), y: parseInt((carro.pos.y + TAMANHO_BLOCO / 2) / TAMANHO_BLOCO)};
         }
 
         function getPosTabuleiro(x, y) {
@@ -417,25 +500,41 @@
             info += 'temCorona = ' + temCorona() + '<br>';
             **/
 
-            //info += JSON.stringify(posCorona) + '<br>';
+            //info += JSON.stringify(getItensEntorno(carro)) + '<br>';
             document.getElementById('info').innerHTML = info;
-            info = '';
+            //info = '';
         }
 
-        function temCorona() {
+        function pegouCorona() {
 
             var posCarroTabuleiro = getPosCarroTabuleiro();
             var resultado = false;
             posCorona.forEach((item) => {
 
                 var posCoronaTabuleiro = getPosTabuleiro(item.pos.x, item.pos.y);
-                info += JSON.stringify(posCoronaTabuleiro);
                 if (posCarroTabuleiro.x == posCoronaTabuleiro.x && posCarroTabuleiro.y == posCoronaTabuleiro.y){
                     resultado = true;
                     return;
                 }
             });
             
+            return resultado;
+
+        }
+
+        function pegouVelhinho() {
+
+            var posCarroTabuleiro = getPosCarroTabuleiro();
+            var resultado = null;
+            posVelhinho.forEach((item) => {
+
+                var posVelhinhoTabuleiro = getPosTabuleiro(item.pos.x, item.pos.y);
+                if (posCarroTabuleiro.x == posVelhinhoTabuleiro.x && posCarroTabuleiro.y == posVelhinhoTabuleiro.y){
+                    resultado = item;
+                    return;
+                }
+            });
+
             return resultado;
 
         }
@@ -450,27 +549,21 @@
 
         function eventoTeclado(event) {
 
-            var tabuleiroBaixo = getItemTabuleiro(getCarroPontoBaixo());
-            var tabuleiroFrente = getItemTabuleiro(getCarroPontoFrente());
-            var tabuleiroTraseira = getItemTabuleiro(getCarroPontoTraseira());
-            var tabuleiroCima = getItemTabuleiro(getCarroPontoCima());
+            //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
+            var entorno = getItensEntorno(carro);
 
-            if (event.keyCode == BOTAO_BAIXO && 
-                (direcaoCarro == BOTAO_BAIXO || direcaoCarro == BOTAO_CIMA || direcaoCarro == PARADO) &&
-                tabuleiroBaixo.item.startsWith('asfalto')) {
-                direcaoCarro = BOTAO_BAIXO;
-            } else if (event.keyCode == BOTAO_CIMA && 
-                      (direcaoCarro == BOTAO_BAIXO || direcaoCarro == BOTAO_CIMA || direcaoCarro == PARADO) &&
-                       tabuleiroCima.item.startsWith('asfalto')) {
-                direcaoCarro = BOTAO_CIMA;
-            } else if (event.keyCode == BOTAO_ESQUERDA && 
-                (direcaoCarro == BOTAO_ESQUERDA || direcaoCarro == BOTAO_DIREITA || direcaoCarro == PARADO) &&
-                tabuleiroTraseira.item.startsWith('asfalto')) {
-                direcaoCarro = BOTAO_ESQUERDA;
-            } else if (event.keyCode == BOTAO_DIREITA && 
-                (direcaoCarro == BOTAO_ESQUERDA || direcaoCarro == BOTAO_DIREITA || direcaoCarro == PARADO) &&
-                tabuleiroFrente.item.startsWith('asfalto')) {
-                direcaoCarro = BOTAO_DIREITA;
+            if (event.keyCode == BOTAO_BAIXO &&
+                entorno.baixo.startsWith('asfalto')) {
+                carro.direcao = BOTAO_BAIXO;
+            } else if (event.keyCode == BOTAO_CIMA && carro.pos.y > 0 &&
+                       entorno.cima.startsWith('asfalto')) {
+                carro.direcao = BOTAO_CIMA;
+            } else if (event.keyCode == BOTAO_ESQUERDA && carro.pos.x > 0  &&
+                entorno.esquerda.startsWith('asfalto')) {
+                carro.direcao = BOTAO_ESQUERDA;
+            } else if (event.keyCode == BOTAO_DIREITA &&
+                entorno.direita.startsWith('asfalto')) {
+                carro.direcao = BOTAO_DIREITA;
             }
 
         }
@@ -480,7 +573,6 @@
            var offCanvas = document.getElementById('tabuleiro');
            var ctxOffCanvas = offCanvas.getContext("2d");
             ctxOffCanvas.drawImage(imgBuffer.get('fundo'), 0, 0);
-            console.log('Splash on');
 
         }
 
@@ -494,12 +586,24 @@
             var x = event.clientX;
             var y = event.clientY;
 
+            //alert(JSON.stringify(getItensEntorno({pos:{x: event.clientX, y: event.clientY}})));
             if (x >= 360 && x <= 490 && y >= 370 && y <= 500) {
                 exibeSplash = false;
                 criaImagemFundo();
                 animacao();
             }
 
+        }
+
+        function removeElementoArray(array, indice) {
+            var novoArray = [];
+            for (var i = 0; i < array.length; i++) {
+                if (i != indice) {
+                    novoArray.push(array[i]);
+                }
+            }
+
+            return novoArray;
         }
 
     </script>
