@@ -23,7 +23,7 @@
         const INTERVALO_PISCA = 30;
 
         // carro representa o carro do jogador que recolhe os velhinhos
-        var carro = {pos: {x: 0, y: 0}, imagem: "carrovd", direcao: PARADO, ultimaDirecao: PARADO, pegouVelhinho: false, pisca: 0, mudouDirecao: function() {return this.direcao != this.ultimaDirecao}};
+        var carro = {pos: {x: 0, y: 0}, imagem: "carrovd", direcao: PARADO, direcaoDesejada: PARADO, ultimaDirecao: PARADO, pegouVelhinho: false, pisca: 0, mudouDirecao: function() {return this.direcao != this.ultimaDirecao}};
 
         var posCorona = [{pos: {x: 11 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:0, baixo: 0, direita: 0, esquerda: 0}];
 
@@ -426,7 +426,18 @@
             }
 
             devolveuVelhinho();
-                        
+
+            // se direcao desejada for igual direcao atual - ok!
+            // se nao mudar sentido - ok!
+            var podeMudarDirecao = false;
+            if ((carro.direcaoDesejada == carro.direcao) || 
+                (carro.direcaoDesejada == BOTAO_ESQUERDA && carro.direcao == BOTAO_DIREITA) || 
+                (carro.direcaoDesejada == BOTAO_CIMA && carro.direcao == BOTAO_BAIXO)) {
+                    carro.direcao = carro.direcaoDesejada;
+            } else  if (((carro.pos.x % TAMANHO_BLOCO) == 0) && (carro.pos.y % TAMANHO_BLOCO) == 0) {
+                carro.direcao = carro.direcaoDesejada;
+            }
+
             if (carro.direcao != PARADO) {
 
                 //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
@@ -648,33 +659,19 @@
 
         function eventoTeclado(event) {
 
-            //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
-            var entorno = getItensEntorno(carro);
-
-            if (carro.direcao == PARADO || 
-               (event.keyCode == BOTAO_CIMA && carro.direcao == BOTAO_BAIXO) ||
-               (event.keyCode == BOTAO_BAIXO && carro.direcao == BOTAO_CIMA) ||
-               (event.keyCode == BOTAO_ESQUERDA && carro.direcao == BOTAO_DIREITA) ||
-               (event.keyCode == BOTAO_DIREITA && carro.direcao == BOTAO_ESQUERDA)) {
-
                 if (carro.ultimaDirecao != carro.direcao) {
                     carro.ultimaDirecao = carro.direcao;
                 }
-                if (event.keyCode == BOTAO_BAIXO &&
-                    entorno.baixo.startsWith('asfalto')) {
-                    carro.direcao = BOTAO_BAIXO;
-                } else if (event.keyCode == BOTAO_CIMA && carro.pos.y > 0 &&
-                        entorno.cima.startsWith('asfalto')) {
-                    carro.direcao = BOTAO_CIMA;
-                } else if (event.keyCode == BOTAO_ESQUERDA && carro.pos.x > 0  &&
-                    entorno.esquerda.startsWith('asfalto')) {
-                    carro.direcao = BOTAO_ESQUERDA;
-                } else if (event.keyCode == BOTAO_DIREITA &&
-                    entorno.direita.startsWith('asfalto')) {
-                    carro.direcao = BOTAO_DIREITA;
+                if (event.keyCode == BOTAO_BAIXO) {
+                    carro.direcaoDesejada = BOTAO_BAIXO;
+                } else if (event.keyCode == BOTAO_CIMA) {
+                    carro.direcaoDesejada = BOTAO_CIMA;
+                } else if (event.keyCode == BOTAO_ESQUERDA) {
+                    carro.direcaoDesejada = BOTAO_ESQUERDA;
+                } else if (event.keyCode == BOTAO_DIREITA) {
+                    carro.direcaoDesejada = BOTAO_DIREITA;
                 }
 
-            }
         }
 
         function splash() {
@@ -735,9 +732,20 @@
         document.getElementById('tabuleiro').height = ALTURA_TABULEIRO * TAMANHO_BLOCO;
 
         carregarBufferImagens(()=>{
-            console.log('OK');
             criaImagemFundo();
             splash();
+
+            this.sound = document.createElement("audio");
+            this.sound.src = '01_loop_de_abertura.mp3';
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "none");
+            this.sound.style.display = "none";
+            document.body.appendChild(this.sound);
+            var promise = this.sound.play();
+            promise.then((result)=>{
+                console.log('Iniciada trillha!');
+            }, (error)=>{console.log('Erro iniciar trilha: '+ error)});
+
             });
 
 </script>
