@@ -697,6 +697,17 @@
                 exibeSplash = false;
                 criaImagemFundo();
                 animacao();
+                this.sound = document.createElement("audio");
+                this.sound.src = '01_loop_de_abertura.mp3';
+                this.sound.setAttribute("preload", "auto");
+                this.sound.setAttribute("controls", "none");
+                this.sound.style.display = "none";
+                document.body.appendChild(this.sound);
+                var promise = this.sound.play();
+                promise.then((result)=>{
+                    console.log('Iniciada trillha!');
+                }, (error)=>{console.log('Erro iniciar trilha: '+ error)});
+
             }
 
         }
@@ -734,18 +745,6 @@
         carregarBufferImagens(()=>{
             criaImagemFundo();
             splash();
-
-            this.sound = document.createElement("audio");
-            this.sound.src = '01_loop_de_abertura.mp3';
-            this.sound.setAttribute("preload", "auto");
-            this.sound.setAttribute("controls", "none");
-            this.sound.style.display = "none";
-            document.body.appendChild(this.sound);
-            var promise = this.sound.play();
-            promise.then((result)=>{
-                console.log('Iniciada trillha!');
-            }, (error)=>{console.log('Erro iniciar trilha: '+ error)});
-
             });
 
 </script>
