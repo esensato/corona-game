@@ -131,6 +131,46 @@
 
         }
 
+        function moveCorona() {
+
+            posCorona.forEach((corona) => {
+
+                //obtem itens no entorno do corona (cima, baixo, esquerda e direita)
+                var entorno = getItensEntorno(corona);
+                
+                if (corona.direcao == BOTAO_CIMA) {
+                        if (!entorno.cima.startsWith('asfalto') && (corona.pos.x % TAMANHO_BLOCO == 0) && (corona.pos.y % TAMANHO_BLOCO == 0)){
+                            corona.direcao = PARADO;
+                            corona.novoSorteio = true;
+                        } else {
+                            corona.pos.y -= 1;
+                        }
+                    } else if (corona.direcao == BOTAO_BAIXO ) {
+                        if (!entorno.baixo.startsWith('asfalto') && (corona.pos.x % TAMANHO_BLOCO == 0) && (corona.pos.y % TAMANHO_BLOCO == 0)){
+                            corona.direcao = PARADO;
+                            corona.novoSorteio = true;
+                        } else {
+                            corona.pos.y += 1;
+                        }                  
+                    } else if (corona.direcao == BOTAO_ESQUERDA) {
+                        if (!entorno.esquerda.startsWith('asfalto') && (corona.pos.x % TAMANHO_BLOCO == 0) && (corona.pos.y % TAMANHO_BLOCO == 0)){
+                            corona.direcao = PARADO;
+                            corona.novoSorteio = true;
+                        } else {
+                            corona.pos.x -= 1;
+                        }
+                    } else if (corona.direcao == BOTAO_DIREITA) {
+                        if (!entorno.direita.startsWith('asfalto') && (corona.pos.x % TAMANHO_BLOCO == 0) && (corona.pos.y % TAMANHO_BLOCO == 0)){
+                            corona.direcao = PARADO;
+                            corona.novoSorteio = true;
+                        } else {
+                            corona.pos.x += 1;
+                        }
+
+                    }
+            });
+            }
+
         function direcionaCorona() {
             posCorona.forEach((corona) => {
                 if (corona.novoSorteio) {
@@ -227,61 +267,45 @@
             });
         }
 
-        function moveCorona() {
+        function moveVelhinho() {
 
-            posCorona.forEach((corona) => {
+            posVelhinho.forEach((velhinho) => {
 
-                var tabuleiroBaixo = getItemTabuleiro({x: corona.pos.x + (TAMANHO_BLOCO / 2), y: corona.pos.y + TAMANHO_BLOCO});
-                var tabuleiroFrente = getItemTabuleiro( {x: corona.pos.x + TAMANHO_BLOCO, y: corona.pos.y + (TAMANHO_BLOCO / 2)});
-                var tabuleiroTraseira = getItemTabuleiro({x: corona.pos.x - 1, y: corona.pos.y + (TAMANHO_BLOCO / 2)});
-                var tabuleiroCima = getItemTabuleiro({x: corona.pos.x + (TAMANHO_BLOCO / 2), y: corona.pos.y - 1});
+                //obtem itens no entorno do velhinho (cima, baixo, esquerda e direita)
+                var entorno = getItensEntorno(velhinho);
                 
-                if (tabuleiroBaixo == undefined) {
-                    tabuleiroBaixo = PARADO;
-                }
-                if (tabuleiroFrente == undefined) {
-                    tabuleiroFrente = PARADO;
-                }
-                if (tabuleiroTraseira == undefined) {
-                    tabuleiroTraseira = PARADO;
-                }
-                if (tabuleiroCima == undefined) {
-                    tabuleiroCima = PARADO;
-                }
-
-                if (corona.direcao == BOTAO_CIMA) {
-                        if (!tabuleiroCima.item.startsWith('asfalto')){
-                            corona.direcao = PARADO;
-                            corona.novoSorteio = true;
+                if (velhinho.direcao == BOTAO_CIMA) {
+                        if (!entorno.cima.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
+                            velhinho.direcao = PARADO;
+                            velhinho.novoSorteio = true;
                         } else {
-                            corona.pos.y -= 0.5;
+                            velhinho.pos.y -= 1;
                         }
-                    } else if (corona.direcao == BOTAO_BAIXO) {
-                        if (!tabuleiroBaixo.item.startsWith('asfalto')){
-                            corona.direcao = PARADO;
-                            corona.novoSorteio = true;
+                    } else if (velhinho.direcao == BOTAO_BAIXO ) {
+                        if (!entorno.baixo.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
+                            velhinho.direcao = PARADO;
+                            velhinho.novoSorteio = true;
                         } else {
-                            corona.pos.y += 0.5;
+                            velhinho.pos.y += 1;
                         }                  
-                    } else if (corona.direcao == BOTAO_ESQUERDA) {
-                        if (!tabuleiroTraseira.item.startsWith('asfalto')){
-                            corona.direcao = PARADO;
-                            corona.novoSorteio = true;
+                    } else if (velhinho.direcao == BOTAO_ESQUERDA) {
+                        if (!entorno.esquerda.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
+                            velhinho.direcao = PARADO;
+                            velhinho.novoSorteio = true;
                         } else {
-                            corona.pos.x -= 0.5;
+                            velhinho.pos.x -= 1;
                         }
-                    } else if (corona.direcao == BOTAO_DIREITA) {
-                        if (!tabuleiroFrente.item.startsWith('asfalto')){
-                            corona.direcao = PARADO;
-                            corona.novoSorteio = true;
+                    } else if (velhinho.direcao == BOTAO_DIREITA) {
+                        if (!entorno.direita.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
+                            velhinho.direcao = PARADO;
+                            velhinho.novoSorteio = true;
                         } else {
-                            corona.pos.x += 0.5;
+                            velhinho.pos.x += 1;
                         }
 
                     }
             });
         }
-
         // Movimento velhinos
         function direcionaVelhinho() {
             posVelhinho.forEach((velhinho) => {
@@ -318,28 +342,28 @@
                 var entorno = getItensEntorno(velhinho);
                 
                 if (velhinho.direcao == BOTAO_CIMA) {
-                        if (!entorno.cima.startsWith('asfalto') || velhinho.pos.y <= 0){
+                        if (!entorno.cima.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.y -= 1;
                         }
-                    } else if (velhinho.direcao == BOTAO_BAIXO) {
-                        if (!entorno.baixo.startsWith('asfalto') || velhinho.pos.y >= ALTURA_TABULEIRO * TAMANHO_BLOCO + TAMANHO_BLOCO){
+                    } else if (velhinho.direcao == BOTAO_BAIXO ) {
+                        if (!entorno.baixo.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.y += 1;
                         }                  
                     } else if (velhinho.direcao == BOTAO_ESQUERDA) {
-                        if (!entorno.esquerda.startsWith('asfalto') || velhinho.pos.x <= 0){
+                        if (!entorno.esquerda.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
                             velhinho.pos.x -= 1;
                         }
                     } else if (velhinho.direcao == BOTAO_DIREITA) {
-                        if (!entorno.direita.startsWith('asfalto')){
+                        if (!entorno.direita.startsWith('asfalto') && (velhinho.pos.x % TAMANHO_BLOCO == 0) && (velhinho.pos.y % TAMANHO_BLOCO == 0)){
                             velhinho.direcao = PARADO;
                             velhinho.novoSorteio = true;
                         } else {
@@ -426,48 +450,70 @@
             }
 
             devolveuVelhinho();
+                            
+            //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
+            var entorno = getItensEntorno(carro);
 
             // se direcao desejada for igual direcao atual - ok!
             // se nao mudar sentido - ok!
-            var podeMudarDirecao = false;
             if ((carro.direcaoDesejada == carro.direcao) || 
                 (carro.direcaoDesejada == BOTAO_ESQUERDA && carro.direcao == BOTAO_DIREITA) || 
                 (carro.direcaoDesejada == BOTAO_CIMA && carro.direcao == BOTAO_BAIXO)) {
                     carro.direcao = carro.direcaoDesejada;
-            } else  if (((carro.pos.x % TAMANHO_BLOCO) == 0) && (carro.pos.y % TAMANHO_BLOCO) == 0) {
-                carro.direcao = carro.direcaoDesejada;
+            } else if (((carro.pos.x % TAMANHO_BLOCO) == 0) && (carro.pos.y % TAMANHO_BLOCO) == 0) {
+
+                if (carro.direcaoDesejada == BOTAO_CIMA) {
+                    if (entorno.cima.startsWith('asfalto') && carro.pos.y >= 0){
+                        carro.direcao = carro.direcaoDesejada;
+                    }
+                } else if (carro.direcaoDesejada == BOTAO_BAIXO) {
+                    if (entorno.baixo.startsWith('asfalto')){
+                        carro.direcao = carro.direcaoDesejada;
+                    }              
+                } else if (carro.direcaoDesejada == BOTAO_ESQUERDA) {
+                    if (entorno.esquerda.startsWith('asfalto')){
+                        carro.direcao = carro.direcaoDesejada;
+                    }
+                } else if (carro.direcaoDesejada == BOTAO_DIREITA) {
+                    if (entorno.direita.startsWith('asfalto')){
+                        carro.direcao = carro.direcaoDesejada;
+                    }
+                }
+
             }
 
-            if (carro.direcao != PARADO) {
-
-                //obtem itens no entorno do carro (cima, baixo, esquerda e direita)
-                var entorno = getItensEntorno(carro);
-
+            if (carro.direcao != PARADO && (carro.pos.x % TAMANHO_BLOCO == 0) && (carro.pos.y % TAMANHO_BLOCO == 0)) {
                 if (carro.direcao == BOTAO_CIMA) {
                     if (!entorno.cima.startsWith('asfalto') || carro.pos.y <= 0){
                         carro.direcao = PARADO;
-                    } else {
-                        carro.pos.y -= 1;
                     }
                 } else if (carro.direcao == BOTAO_BAIXO) {
                     if (!entorno.baixo.startsWith('asfalto')){
                         carro.direcao = PARADO;
-                    } else {
-                        carro.pos.y += 1;
-                    }                  
+                    }              
                 } else if (carro.direcao == BOTAO_ESQUERDA) {
                     if (!entorno.esquerda.startsWith('asfalto') || carro.pos.x <= 0){
                         carro.direcao = PARADO;
-                    } else {
-                        carro.pos.x -= 1;
                     }
                 } else if (carro.direcao == BOTAO_DIREITA) {
                     if (!entorno.direita.startsWith('asfalto')){
                         carro.direcao = PARADO;
-                    } else {
-                        carro.pos.x += 1;
                     }
+                }
 
+            }
+
+            if (carro.direcao != PARADO) {
+
+                // atualiza posicao do carro
+                if (carro.direcao == BOTAO_CIMA) {
+                    carro.pos.y -= 1;
+                } else if (carro.direcao == BOTAO_BAIXO) {
+                    carro.pos.y += 1;
+                } else if (carro.direcao == BOTAO_ESQUERDA) {
+                    carro.pos.x -= 1;
+                } else if (carro.direcao == BOTAO_DIREITA) {
+                    carro.pos.x += 1;
                 }
 
             }
@@ -490,19 +536,19 @@
             moveCorona();
             direcionaVelhinho();
             moveVelhinho();
-            printInfo();
+            //printInfo();
 
         }
 
         function getItensEntorno(elemento) {
+            
+            var posCima = {x: parseInt((elemento.pos.x / TAMANHO_BLOCO)), y: parseInt((elemento.pos.y) / TAMANHO_BLOCO) - 1};
+            var posDireita = {x: parseInt(((elemento.pos.x + TAMANHO_BLOCO)/ TAMANHO_BLOCO)), y: parseInt((elemento.pos.y / TAMANHO_BLOCO))};
+            var posBaixo = {x: parseInt((elemento.pos.x / TAMANHO_BLOCO)), y: parseInt(((elemento.pos.y + TAMANHO_BLOCO) / TAMANHO_BLOCO))};
+            var posEsquerda = {x: parseInt((elemento.pos.x / TAMANHO_BLOCO)) - 1, y: parseInt((elemento.pos.y / TAMANHO_BLOCO))};
 
-            //obtem pontos no tabuleiro do entorno
-            var posCima = {x: parseInt((elemento.pos.x + MEIO_BLOCO) / TAMANHO_BLOCO), y: parseInt(elemento.pos.y / TAMANHO_BLOCO)};
-            var posDireita = {x: parseInt((elemento.pos.x + TAMANHO_BLOCO) / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + MEIO_BLOCO) / TAMANHO_BLOCO)};
-            var posBaixo = {x: parseInt((elemento.pos.x + MEIO_BLOCO) / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + TAMANHO_BLOCO) / TAMANHO_BLOCO)};
-            var posEsquerda = {x: parseInt(elemento.pos.x / TAMANHO_BLOCO), y: parseInt((elemento.pos.y + MEIO_BLOCO) / TAMANHO_BLOCO)};
-
-            info = "C = " + JSON.stringify(posCima);
+            info += JSON.stringify(elemento) + '<br>';
+            info += "C = " + JSON.stringify(posCima);
             info += " D = " + JSON.stringify(posDireita);
             info += " B = " + JSON.stringify(posBaixo);
             info += " E = " + JSON.stringify(posEsquerda);
@@ -611,7 +657,9 @@
                     var posVelhinhoTabuleiro = getPosTabuleiro(item.pos.x, item.pos.y);
                     if (posCarroTabuleiro.x == posVelhinhoTabuleiro.x && posCarroTabuleiro.y == posVelhinhoTabuleiro.y){
                         resultado = item;
+                        tocaMusica();
                         return;
+
                     }
                 });
 
@@ -634,6 +682,7 @@
                 if (temCasa) {
                     carro.pegouVelhinho = false;
                     carro.pisca = 0;
+                    pausaMusica();
                     if (carro.direcao == BOTAO_CIMA) {
                         carro.imagem = 'carrovc';
                     } else if (carro.direcao == BOTAO_DIREITA) {
@@ -692,7 +741,8 @@
             var x = event.clientX;
             var y = event.clientY;
 
-            //alert(JSON.stringify(getItensEntorno({pos:{x: event.clientX, y: event.clientY}})));
+            getItensEntorno({pos:{x: event.clientX, y: event.clientY}});
+            printInfo();
             if (x >= 360 && x <= 490 && y >= 370 && y <= 500) {
                 exibeSplash = false;
                 criaImagemFundo();
@@ -703,12 +753,24 @@
                 this.sound.setAttribute("controls", "none");
                 this.sound.style.display = "none";
                 document.body.appendChild(this.sound);
-                var promise = this.sound.play();
-                promise.then((result)=>{
-                    console.log('Iniciada trillha!');
-                }, (error)=>{console.log('Erro iniciar trilha: '+ error)});
 
             }
+
+        }
+
+        function tocaMusica() {
+            var promise = this.sound.play();
+            promise.then((result)=>{
+                console.log('Iniciada trillha!');
+            }, (error)=>{console.log('Erro iniciar trilha: '+ error)});
+
+        }
+
+        function pausaMusica() {
+            var promise = this.sound.pause();
+            promise.then((result)=>{
+                console.log('Parada trillha!');
+            }, (error)=>{console.log('Erro parar trilha: '+ error)});
 
         }
 
