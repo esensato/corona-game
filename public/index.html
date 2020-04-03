@@ -18,9 +18,34 @@
         const MEIO_BLOCO = TAMANHO_BLOCO / 2;
         const LARGURA_TABULEIRO = 19;
         const ALTURA_TABULEIRO = 9;
-        const TOTAL_IMAGEM = 18 + 6;
         const PESO_DIRECAO = 5;
         const INTERVALO_PISCA = 30;
+        var imagens = [ 'calcada', 
+                        'asfaltod',
+                        'asfaltoe',
+                        'asfaltoh',
+                        'asfaltov',
+                        'asfaltobd',
+                        'asfaltotb',
+                        'asfaltotc',
+                        'asfaltobe',
+                        'grama',
+                        'casa',
+                        'carrovc',
+                        'carrovd',
+                        'carrove',
+                        'carrovb',
+                        'carrorc',
+                        'carrord',
+                        'carrore',
+                        'carrorb', 
+                        'corona',
+                        'explosao',
+                        'titio',
+                        'titio2',
+                        'splash'];
+
+        const TOTAL_IMAGEM = imagens.length;
 
         // carro representa o carro do jogador que recolhe os velhinhos
         var carro = {pos: {x: 0, y: 0}, imagem: "carrovd", direcao: PARADO, direcaoDesejada: PARADO, ultimaDirecao: PARADO, pegouVelhinho: false, pisca: 0, mudouDirecao: function() {return this.direcao != this.ultimaDirecao}};
@@ -30,7 +55,6 @@
         var posVelhinho = [{pos: {x: 4 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
                          {pos: {x: 4 * TAMANHO_BLOCO, y:4 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false},
                          {pos: {x: 10 * TAMANHO_BLOCO, y:7 * TAMANHO_BLOCO}, novoSorteio: true, direcao: BOTAO_BAIXO, cima:false, baixo: false, direita: false, esquerda: false}];
-
         var tabuleiro =   [ "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "casa", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", 
                             "asfaltov", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "calcada", "asfaltov", "calcada", "asfaltod", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "asfaltobd", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltotb", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltov", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "asfaltobd", "asfaltoe", "asfaltov", "grama", "grama", "grama", "grama", "grama", "grama", "asfaltov", "grama", "grama", "grama", "grama", "grama", "grama", "grama", "grama", "grama", "grama", "asfaltov", "asfaltov", "grama", "asfaltod", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltotc", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoh", "asfaltoe", "grama", "grama", "grama", "grama", "asfaltov", "asfaltobd", "asfaltoh", "asfaltobe", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada", "calcada","calcada","asfaltobd","asfaltoh","asfaltoh","asfaltoh","asfaltoh","asfaltobe"];
 
@@ -64,28 +88,11 @@
 
             for (var i = 0; i < tabuleiro.length; i++) {
 
-                if (imgBuffer.get(tabuleiro[i]) == null) {
-                    carregarImagem(tabuleiro[i], (total) => {console.log(total); callback();});
+                if (imgBuffer.get(imagens[i]) == null) {
+                    carregarImagem(imagens[i], (total) => {console.log(total); callback();});
                 }
 
             }
-
-            carregarImagem('carrovc', (total) => {console.log(total); callback();});
-            carregarImagem('carrovd', (total) => {console.log(total); callback();});
-            carregarImagem('carrove', (total) => {console.log(total); callback();});
-            carregarImagem('carrovb', (total) => {console.log(total); callback();});
-
-            carregarImagem('carrorc', (total) => {console.log(total); callback();});
-            carregarImagem('carrord', (total) => {console.log(total); callback();});
-            carregarImagem('carrore', (total) => {console.log(total); callback();});
-            carregarImagem('carrorb', (total) => {console.log(total); callback();});
-
-            carregarImagem('corona', (total) => {console.log(total); callback();});
-            carregarImagem('explosao', (total) => {console.log(total); callback();});
-            carregarImagem('titio', (total) => {console.log(total); callback();});
-            carregarImagem('titio2', (total) => {console.log(total); callback();});
-            carregarImagem('casa', (total) => {console.log(total); callback();});
-            carregarImagem('splash', (total) => {console.log(total); callback();});
 
             console.log('Buffer de imagem carregado');
 

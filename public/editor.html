@@ -15,34 +15,51 @@
         const TAMANHO_BLOCO = 64;
         const LARGURA_TABULEIRO = 19;
         const ALTURA_TABULEIRO = 9;
-
+        const TOTAL_IMAGEM = 13;
         var tabuleiro = [];
-
-        var imagens = ['calcada', 'asfaltod', 'asfaltoe', 'asfaltoh', 'asfaltov', 'asfaltobd', 'asfaltobe', 'grama'];
-
-        var imgBuffer = [];
+        var imgBuffer = new Map();
+        var itemMenuSelecionado = 0;
+        var imagens = [ 'calcada', 
+                        'asfaltod',
+                        'asfaltoe',
+                        'asfaltoh',
+                        'asfaltov',
+                        'asfaltobd',
+                        'asfaltotb',
+                        'asfaltotc',
+                        'asfaltobe',
+                        'grama',
+                        'casa' ];
         var cursorX = 0;
         var cursorY = 0;
-        var imgCursor = null;
-        var imgAtual = 0;
         var criarBloco = false;
 
-        function carregarBufferImagens() {
+        function carregarImagem(nome, callback) {
 
-            for (var i = 0; i < imagens.length; i++) {
+            if (!imgBuffer.has(nome)) {
 
                 var img = new Image(); 
-                img.src =  'img/' + imagens[i] + '.png'; 
-                imgBuffer[i] = img;
-                console.log('Carregado: ' + img.src);
-
+                img.src =  'img/' + nome + '.png'; 
+                img.onload = function() {
+                    imgBuffer.set(nome, img);
+                    console.log('Carregado: ' + img.src + ", " + imgBuffer.size);
+                    if(imgBuffer.size == TOTAL_IMAGEM){
+                        callback(imgBuffer.size);
+                    }      
+                }
 
             }
 
-            imgCursor = new Image(); 
-            imgCursor.src =  'img/cursor.png'; 
+        }
 
-            console.log('Buffer de imagem carregado');
+        function carregarBufferImagens(callback) {
+
+            for (var i = 0; i < imagens.length; i++) {
+                carregarImagem(imagens[i], (total) => {console.log(total); callback();});
+            }
+
+            carregarImagem('cursor', (total) => {console.log(total); callback();});
+            carregarImagem('save', (total) => {console.log(total); callback();});
 
         }
 
@@ -53,6 +70,26 @@
             }
 
             console.log('Tabuleiro iniciado');
+        }
+
+        function desenhaMenu() {
+
+            var coluna = 0;
+
+            var menuCanvas = document.getElementById('menu');
+            var ctxMenu = menuCanvas.getContext('2d');
+
+            for (var i = 0; i < imagens.length; i++) {
+                var img = imgBuffer.get(imagens[i]);
+                ctxMenu.drawImage(img, coluna, 0);
+                coluna += TAMANHO_BLOCO;
+
+            }
+
+            ctxMenu.drawImage(imgBuffer.get('save'), LARGURA_TABULEIRO * TAMANHO_BLOCO - TAMANHO_BLOCO, 0);
+            ctxMenu.drawImage(imgBuffer.get('cursor'), itemMenuSelecionado * TAMANHO_BLOCO, 0);
+
+
         }
 
         function desenhaTabuleiro() {
@@ -69,8 +106,7 @@
             var coluna = 0;
 
             for (var i = 0; i < tabuleiro.length; i++) {
-
-                var img = imgBuffer[imagens.indexOf(tabuleiro[i])];
+                var img = imgBuffer.get(tabuleiro[i]);
                 ctxOffCanvas.drawImage(img, coluna, linha);
                 coluna += TAMANHO_BLOCO;
                 if (LARGURA_TABULEIRO == (coluna / TAMANHO_BLOCO)) {
@@ -81,12 +117,14 @@
             }
             
             if (criarBloco) {
-                ctxOffCanvas.drawImage(imgBuffer[imgAtual], cursorX * TAMANHO_BLOCO, cursorY * TAMANHO_BLOCO);                    
+                var idImagem = imagens[itemMenuSelecionado];
+                ctxOffCanvas.drawImage(imgBuffer.get(idImagem), cursorX * TAMANHO_BLOCO, cursorY * TAMANHO_BLOCO); 
+                setBloco();
             }
 
-            ctxOffCanvas.drawImage(imgCursor, cursorX * TAMANHO_BLOCO, cursorY * TAMANHO_BLOCO);
+            ctxOffCanvas.drawImage(imgBuffer.get('cursor'), cursorX * TAMANHO_BLOCO, cursorY * TAMANHO_BLOCO);
             document.getElementById('tabuleiro').getContext("2d").drawImage(offCanvas, 0, 0);
-            printInfo();
+            //printInfo();
 
         }
 
@@ -103,23 +141,16 @@
 
         function printInfo() {
 
-            var info = 'X = ' + cursorX + 'Y = ' + cursorY + '<br>';
+            var info = '';
             var tmp = 'var tabuleiro = [ ';
             for (var i = 0; i < tabuleiro.length; i++) {
                 tmp += '"' + tabuleiro[i] + '"';
                 if (i < (tabuleiro.length - 1)) {
                     tmp += ', ';
-                    if (i % LARGURA_TABULEIRO == 0) {
-                        tmp += '\n';
-                    }
                 }
             }
-            info += tmp + ']';
-            document.getElementById('info').innerHTML = info;
-
-        }
-
-        function atualizaCursor() {
+            info = tmp + ']';
+            return info;
 
         }
 
@@ -127,7 +158,7 @@
             if (criarBloco) {
                     criarBloco = false;
                     var idx = getItemTabuleiro();
-                    tabuleiro[idx] = imagens[imgAtual];
+                    tabuleiro[idx] = imagens[itemMenuSelecionado];
                     console.log(idx + " = " + tabuleiro[idx] );
                 }
         }
@@ -135,46 +166,57 @@
         function eventoTeclado(event) {
 
             if (event.keyCode == BOTAO_BAIXO && cursorY < ALTURA_TABULEIRO - 1) {
-                setBloco();
                 cursorY++;
             } else if (event.keyCode == BOTAO_CIMA && cursorY > 0) {
-                setBloco();
                 cursorY--;
             } else if (event.keyCode == BOTAO_ESQUERDA && cursorX > 0) {
-                setBloco();
                 cursorX--;
             } else if (event.keyCode == BOTAO_DIREITA && cursorX < LARGURA_TABULEIRO - 1) {
-                setBloco();
                 cursorX++;
             } else if (event.keyCode == ESPACO) {
-                imgAtual++;
                 criarBloco = true;
-                if (imgAtual > imagens.length) {
-                    imgAtual = 0;
-                }
             }
 
             desenhaTabuleiro();
 
         }
 
-        function init() {
+        function selecionaItemMenu(event) {
 
-            document.getElementById('tabuleiro').width = LARGURA_TABULEIRO * TAMANHO_BLOCO;
-            document.getElementById('tabuleiro').height = ALTURA_TABULEIRO * TAMANHO_BLOCO;
-            carregarBufferImagens();
-            initTabuleiro();
-            desenhaTabuleiro();
+            var x0Save = LARGURA_TABULEIRO * TAMANHO_BLOCO - TAMANHO_BLOCO;
+            var x1Save = LARGURA_TABULEIRO * TAMANHO_BLOCO;
+            var y0Save = ALTURA_TABULEIRO * TAMANHO_BLOCO - TAMANHO_BLOCO;
+            var y1Save = ALTURA_TABULEIRO * ( 2 * TAMANHO_BLOCO);
+            
+            if (((event.clientX >= x0Save) &&
+            (event.clientX <= x1Save) &&
+            (event.clientY >= y0Save) &&
+            (event.clientY <= y1Save))) {
+                    
+                    var dialog = document.getElementById('dialog');
+                    if (dialog.style.visibility == 'visible') {
+                        dialog.style.visibility='hidden' 
+                    } else {
+                        dialog.style.visibility='visible'
+                        dialog.innerHTML = printInfo();
+                    }
 
- 
+            }
+
+            itemMenuSelecionado = parseInt(event.clientX / TAMANHO_BLOCO);
+            desenhaMenu();
+
         }
+
     </script>
 
 </head>
 
-<body onkeydown="eventoTeclado(event);" onload="init();">
+<body onkeydown="eventoTeclado(event);">
 
-    <div>
+        <div id="dialog" style="padding: 20px; visibility: hidden; background: #FFFFFF; position: fixed; left: 100px; top: 10px; height: 400px; width: 700px; border: solid 2px; overflow-y: auto"></div>
+
+        <div>
 
         <canvas id="tabuleiro"
         width="640" height="480"
@@ -183,6 +225,31 @@
 
     </div>
 
-<div id="info" style="height: 50px;overflow-y: auto"></div>
+    <canvas id="menu" onclick="selecionaItemMenu(event)"
+        width="640" height="480"
+        style="background: #ff0000">
+    </canvas>
+
+    <div id="info" style="height: 50px;overflow-y: auto"></div>
+    
+
+    <script>
+
+        document.getElementById('tabuleiro').width = LARGURA_TABULEIRO * TAMANHO_BLOCO;
+        document.getElementById('tabuleiro').height = ALTURA_TABULEIRO * TAMANHO_BLOCO;
+
+        document.getElementById('menu').width = LARGURA_TABULEIRO * TAMANHO_BLOCO;
+        document.getElementById('menu').height = TAMANHO_BLOCO;
+
+        carregarBufferImagens(()=>{
+
+            console.log('Buffer de imagem carregado');
+            initTabuleiro();
+            desenhaTabuleiro();
+            desenhaMenu();
+            });
+
+    </script>
+
 </body>
 </html>
