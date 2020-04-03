@@ -175,33 +175,20 @@
             posCorona.forEach((corona) => {
                 if (corona.novoSorteio) {
                     var direcoes = [];
-                    var tabuleiroBaixo = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
-                    var tabuleiroFrente = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
-                    var tabuleiroTraseira = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
-                    var tabuleiroCima = getItemTabuleiro({x:corona.pos.x, y:corona.pos.y});
 
-                    if (tabuleiroBaixo == undefined) {
-                        tabuleiroBaixo = PARADO;
-                    }
-                    if (tabuleiroFrente == undefined) {
-                        tabuleiroFrente = PARADO;
-                    }
-                    if (tabuleiroTraseira == undefined) {
-                        tabuleiroTraseira = PARADO;
-                    }
-                    if (tabuleiroCima == undefined) {
-                        tabuleiroCima = PARADO;
-                    }
-                    if (tabuleiroCima.item.startsWith('asfalto')){
+                    //obtem itens no entorno do velhinho (cima, baixo, esquerda e direita)
+                    var entorno = getItensEntorno(corona);
+
+                    if (entorno.cima.startsWith('asfalto')){
                         direcoes.push(BOTAO_CIMA);
                     }
-                    if (tabuleiroBaixo.item.startsWith('asfalto')){
+                    if (entorno.baixo.startsWith('asfalto')){
                         direcoes.push(BOTAO_BAIXO);
                     }
-                    if (tabuleiroFrente.item.startsWith('asfalto')){
+                    if (entorno.direita.startsWith('asfalto')){
                         direcoes.push(BOTAO_DIREITA);
                     }
-                    if (tabuleiroTraseira.item.startsWith('asfalto')){
+                    if (entorno.esquerda.startsWith('asfalto')){
                         direcoes.push(BOTAO_ESQUERDA);
                     }
 
